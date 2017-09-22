@@ -1,0 +1,10 @@
+
+<form name="addSudentForm" ng-submit="submitForm()">
+	<label>Add a student</label> 
+	<input type="text" name="name" ng-model="name" length="10" required>
+
+	<input name="rollNumber" type="text" ng-model="rollNo" length="5" required>
+    <input name="percentage" type="text" ng-model="percentage" length="10" required>
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<p>{{postResultMessage}}</p>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>React + Spring</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+         <link rel="stylesheet" href="/css/kendo.common.min.css" />
+    <link rel="stylesheet" href="/css/kendo.default.min.css" />
+     <link rel="stylesheet" href="/css/kendo.default.mobile.min.css" />
+</head>
+<body>
+    <div id='root'></div>
+ 
+ <!-- 
+ replace with webjars
+  -->
+    <script src="https://fb.me/react-15.0.1.js"></script>
+    <script src="https://fb.me/react-dom-15.0.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/webjars/kendo-ui-core/2016.3.1317/js/kendo.core.min.js"></script>
+    
+ 
+
+    <script type="text/babel"></script>
+</body>
+
+<script type="text/babel">
+var App = React.createClass({
+ 
+  loadEmployeesFromServer: function () {
+    var self = this;
+    $.ajax({
+      url: "http://localhost:8080/employees/get"
+    }).then(function (data) {
+// this didn't work self.setState({employees: data._embedded.employees});
+      self.setState({employees: data});
+
+    });
+  },
+ 
+  getInitialState: function () {
+    return {employees: []};
+  },
+ 
+  componentDidMount: function () {
+    this.loadEmployeesFromServer();
+  },
+ 
+  render() {
+    return ( <EmployeeTable employees={this.state.employees}/> );
+  }
+});
+
+
+var Employee = React.createClass({
+getInitialState: function() {
+    return {display: true };
+  },
+  handleDelete() {
+var id = this.props.employee.id
+    var self = this;
+    $.ajax({
+      url: 'http://localhost:8080/employees/delete/' + id,
+      type: 'DELETE',
+      success: function(result) {
+
+       self.setState({display: false});
+
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+
+      }
+    });
+  },
+  render: function() {
+if (this.state.display==false) return null;
+
+    return (
+      <tr>
+        <td>{this.props.employee.name}</td>
+        <td>{this.props.employee.age}</td>
+        <td>{this.props.employee.years}</td>
+<td>{this.props.employee.department}</td>
+<td>
+    <button className="btn btn-info" onClick={this.handleDelete}>Delete</button>
+</td>
+      </tr>);
+  }
+});
+
+var EmployeeTable = React.createClass({
+  render: function() {
+    var rows = [];
+    this.props.employees.forEach(function(employee) {
+      rows.push(<Employee employee={employee} />);
+    });
+    return (
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th><th>Age</th><th>Years</th><th>Department</th><th>delete</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>);
+  }
+});
+ 
+
+ReactDOM.render(<App />, document.getElementById('root') );
+
+</script>
+</html>

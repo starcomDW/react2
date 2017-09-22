@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>React + Spring</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
+</head>
+<body>
+    <div id='root'></div>
+ 
+ <!-- 
+ replace with webjars
+  -->
+    <script src="https://fb.me/react-15.0.1.js"></script>
+    <script src="https://fb.me/react-dom-15.0.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/babel"></script>
+</body>
+
+<script type="text/babel">
+//var Employee = React.createClass({});
+//var EmployeeTable = React.createClass({});
+
+//var Employee = React.Component({});
+//var EmployeeTable = React.Component({});
+</script>
+
+<script type="text/babel">
+var Employee = React.createClass({
+  render: function() {
+    return (<div>employee</div>);
+  }
+});
+var EmployeeTable = React.createClass({
+  render: function() {
+   <div className="container">
+  <table className="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Years</th>
+      </tr>
+    </thead>
+    <tbody>{rows}</tbody>
+  </table>
+</div>
+  }
+});
+</script>
+
+<script type="text/babel">
+var App = React.createClass({
+ 
+  loadEmployeesFromServer: function () {
+    var self = this;
+    $.ajax({
+      url: "http://localhost:8080/employees/get"
+    }).then(function (data) {
+// this didn't work self.setState({employees: data._embedded.employees});
+      self.setState({employees: data});
+
+    });
+  },
+ 
+  getInitialState: function () {
+    return {employees: []};
+  },
+ 
+  componentDidMount: function () {
+    this.loadEmployeesFromServer();
+  },
+ 
+  render() {
+    return ( <EmployeeTable employees={this.state.employees}/> );
+  }
+});
+var EMPLOYEES = [
+  {name: 'Joe Smith', age: 45, years: 5},
+  {name: 'Fred Jones', age: 59, years: 8},
+  {name: 'Crystal Mountain', age: 34, years: 12},
+  {name: 'James Anderson', age: 33, years: 2}
+];
+
+var Employee = React.createClass({
+  render: function() {
+    return (
+      <tr>
+        <td>{this.props.employee.name}</td>
+        <td>{this.props.employee.age}</td>
+        <td>{this.props.employee.years}</td>
+      </tr>);
+  }
+});
+
+var EmployeeTable = React.createClass({
+  render: function() {
+    var rows = [];
+    this.props.employees.forEach(function(employee) {
+      rows.push(<Employee employee={employee} />);
+    });
+    return (
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th><th>Age</th><th>Years</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>);
+  }
+});
+ 
+
+ReactDOM.render(<App />, document.getElementById('root') );
+
+</script>
+</html>
