@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>React + Spring using babel</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+         <link rel="stylesheet" href="/css/kendo.common.min.css" />
+         <link rel="stylesheet" href="/css/blackYellow.css" />
+    <link rel="stylesheet" href="/css/kendo.default.min.css" />
+     <link rel="stylesheet" href="/css/kendo.default.mobile.min.css" />
+     
+         <script src="https://fb.me/react-15.0.1.js"></script>
+    <script src="https://fb.me/react-dom-15.0.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/webjars/kendo-ui-core/2016.3.1317/js/kendo.core.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+
+<!--  
+ <script type="text/javascript" src="js/includes/header.js"></script>
+ <script type="text/javascript" src="js/model/products.js"></script>
+ <script type="text/javascript" src="js/includes/home.js"></script>
+  <script type="text/javascript" src="js/model/shop.js"></script>
+   <script type="text/javascript" src="js/model/orders.js"></script>
+  
+ -->
+
+
+
+<script src="/js/kendo.all.min.js"></script>
+     <script src="https://npmcdn.com/react-router@3.0.2/umd/ReactRouter.min.js"></script>
+</head>
+<body>
+  
+  <div id="container">
+  
+  </div>
+  
+  <!-- 
+  <script type="text/jsx" src="js/main.jsx"></script>
+-->
+    <script type="text/babel">
+// aliases to replace things like ReactRouter.Router
+var { Router,
+      Route,
+      IndexRoute,
+      IndexLink,
+      hashHistory,
+      Link } = ReactRouter;
+
+var Contact = React.createClass({
+ 
+  loadEmployeesFromServer: function () {
+    var self = this;
+    $.ajax({
+      url: "http://localhost:8080/employees/get"
+    }).then(function (data) {
+// this didn't work self.setState({employees: data._embedded.employees});
+      self.setState({employees: data});
+
+    });
+  },
+ 
+  getInitialState: function () {
+    return {employees: []};
+  },
+ 
+  componentDidMount: function () {
+    this.loadEmployeesFromServer();
+  },
+ 
+  render() {
+    return ( <EmployeeTable employees={this.state.employees}/> );
+  }
+});
+
+
+var Employee = React.createClass({
+getInitialState: function() {
+    return {display: true };
+  },
+  handleDelete() {
+var id = this.props.employee.id
+    var self = this;
+    $.ajax({
+      url: 'http://localhost:8080/employees/delete/' + id,
+      type: 'DELETE',
+      success: function(result) {
+
+       self.setState({display: false});
+
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+
+      }
+    });
+  },
+  render: function() {
+if (this.state.display==false) return null;
+
+    return (
+      <tr>
+        <td>{this.props.employee.name}</td>
+        <td>{this.props.employee.age}</td>
+        <td>{this.props.employee.years}</td>
+<td>{this.props.employee.department}</td>
+<td>
+    <button className="btn btn-info" onClick={this.handleDelete}>Delete</button>
+</td>
+      </tr>);
+  }
+});
+
+var EmployeeTable = React.createClass({
+  render: function() {
+    var rows = [];
+    this.props.employees.forEach(function(employee) {
+      rows.push(<Employee employee={employee} />);
+    });
+    return (
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th><th>Age</th><th>Years</th><th>Department</th><th>delete</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>);
+  }
+});
+
+
+/////////////// end employee
+
+ 
+var Stuff = React.createClass({
+  render: function() {
+      return (
+        <div>
+          <h2>STUFF</h2>
+          <p>this is the stuff page</p>
+          <ol>
+            <li>some random list</li>
+            <li>blah</li>
+          </ol>
+        </div>
+      );
+    }
+});
+
+var Home = React.createClass({
+  render: function() {
+      return (
+        <div>
+          <h2>Home page</h2>
+          <p>home page using jsx</p>
+        </div>
+      );
+    }
+});
+
+var Products = React.createClass({
+  render: function() {
+      return (
+        <div>
+          <h2>Products</h2>
+          <p>Do stuff with products jsx</p>
+        </div>
+      );
+    }
+});
+
+var Shop = React.createClass({
+  render: function() {
+      return (
+        <div>
+          <h2>Do shopping here</h2>
+          <p>shop jsx</p>
+        </div>
+      );
+    }
+});
+
+var Orders = React.createClass({
+componentDidMount: function() {
+$("#orderSearchPanel").kendoPanelBar({
+    expandMode: "multiple"
+});
+},
+  render: function() {
+     return (
+<div>
+<ul id="orderSearchPanel">
+  <li class="k-state-active">
+  <span class="k-link k-state-selected">Order Search</span>
+  <div id="orderSearchCriteria">
+ Search criteria
+  </div>
+  </li>
+<li>
+  <span>Orders</span>
+  <div id="orderSearchResults">
+  these are the search results
+  </div>
+  </li>
+</ul>
+</div>
+     )
+  }
+});
+
+var App = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <ul className="header">
+          <li><img src='images/starcom_logo.png' width='70' height='20' alt='Starcom'/></li>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/products">Products</Link></li>
+          <li><Link to="/shop">Shop</Link></li>
+          <li><Link to="/orders">Orders</Link></li>
+          <li><Link to="/stuff">Stuff</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
+        </ul>
+        <div className="content">
+        {this.props.children}
+        </div>
+      </div>
+    )
+  }
+});
+
+    var destination = document.querySelector("#container");
+  
+    ReactDOM.render(
+      <Router history={hashHistory}>
+        <Route path="/" component={App}>
+        <IndexRoute component={Home}/>
+        <Route path="products" component={Products} />
+        <Route path="shop" component={Shop} />
+        <Route path="orders" component={Orders} />
+        <Route path="stuff" component={Stuff} />
+        <Route path="contact" component={Contact} />
+        </Route>
+      </Router>,
+     destination
+    );
+  </script>
+</body>
+</html>
