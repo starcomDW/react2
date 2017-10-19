@@ -13,6 +13,7 @@ import react.basic.one.domain.Employee;
 // comment2 on master after branching
 // c3 on master
 // c4 on master
+// c5 on master will merge without a merge commit
 @Service
 public class EmployeeService {
 
