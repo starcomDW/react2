@@ -14,6 +14,7 @@ import react.basic.one.domain.Employee;
 // c3 on master
 // c4 on master
 // c5 on master will merge without a merge commit
+// c6 on master will merge without a merge commit, really
 @Service
 public class EmployeeService {
 
