@@ -16,4 +16,10 @@ public class HomeController {
     public String index2(@PathVariable String id) {
         return "index" + id;
     }
+    
+    @RequestMapping(value = "/oo/{id}")
+    public String index3(@PathVariable String id) {
+        return "index" + id;
+    }
+    
 }
