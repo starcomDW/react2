@@ -8,6 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ReactOneApplication {
  
     public static void main(String[] args) {
-        SpringApplication.run(ReactOneApplication.class, args);
+        SpringApplication.run(ReactOneApplication.class, args);// change on mergeOne that will have a conflict
     }
 }

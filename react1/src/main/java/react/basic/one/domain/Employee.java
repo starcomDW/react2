@@ -16,7 +16,7 @@ public class Employee {
   // comment 4
   // comment 5 (after add)
   public Employee(int id, String name, int age, int years, String department) {
-    this.id = id;
+    this.id = id;// change on merge one that will have a conflict
     this.name = name;
     this.age = age;
     this.years = years;
@@ -62,7 +62,7 @@ public class Employee {
   }
 
   @Override
-  public int hashCode() {
+  public int hashCode() {// change on mergeOne that will not have a conflict
     final int prime = 31;
     int result = 1;
     result = prime * result + id;
