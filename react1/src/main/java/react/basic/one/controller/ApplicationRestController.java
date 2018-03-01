@@ -27,5 +27,5 @@ public class ApplicationRestController {
   @RequestMapping(value = "/employees/delete/{id}", method=RequestMethod.DELETE)
   public void deleteEmployee(@PathVariable int id) {
     service.deleteEmployee(id);
-  }
+  }// non-conflicting change on master
 }
