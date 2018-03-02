@@ -2,6 +2,7 @@ package react.basic.one.domain;
 
 public class Employee {
 
+  // 1 checkout
   // 1 mergeOne
   private int id;
   private String name;
