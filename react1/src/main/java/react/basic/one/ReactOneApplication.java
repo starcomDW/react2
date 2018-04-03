@@ -1,15 +1,17 @@
 package react.basic.one;
 
-import java.util.*;
-import react.basic.one.domain.*;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Collectors.*;
-import static java.util.Comparator.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+
+import react.basic.one.domain.OrderStatus;
 // four merge1
 //@SpringBootApplication
 public class ReactOneApplication {
@@ -27,6 +29,7 @@ public class ReactOneApplication {
     };
   }
 
+    @SuppressWarnings("unused")
     private void one() {
       System.out.println("start");
       int i = 0;
