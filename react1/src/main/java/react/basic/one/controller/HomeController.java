@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-// two merge1
+// two merge1 test new version of git
 // another change on merge one that will not have a conflict
 @Controller
 public class HomeController {
